@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hotels_messages",
+  "info": {
+    "singularName": "hotels-message",
+    "pluralName": "hotels-messages",
+    "displayName": "hotels-messages"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Author": {
+      "type": "string"
+    },
+    "Message": {
+      "type": "text"
+    },
+    "rating": {
+      "type": "decimal"
+    },
+    "hotel": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::hotel.hotel",
+      "inversedBy": "hotels_messages"
+    }
+  }
+}
