@@ -362,6 +362,84 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiHotelHotel extends Schema.CollectionType {
+  collectionName: 'hotels';
+  info: {
+    singularName: 'hotel';
+    pluralName: 'hotels';
+    displayName: 'hotels';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.Text;
+    price: Attribute.Integer;
+    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
+    image_url: Attribute.String;
+    featured: Attribute.Boolean;
+    hotels_messages: Attribute.Relation<
+      'api::hotel.hotel',
+      'oneToMany',
+      'api::hotels-message.hotels-message'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::hotel.hotel',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::hotel.hotel',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiHotelsMessageHotelsMessage extends Schema.CollectionType {
+  collectionName: 'hotels_messages';
+  info: {
+    singularName: 'hotels-message';
+    pluralName: 'hotels-messages';
+    displayName: 'hotels-messages';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Author: Attribute.String;
+    Message: Attribute.Text;
+    rating: Attribute.Decimal;
+    hotel: Attribute.Relation<
+      'api::hotels-message.hotels-message',
+      'manyToOne',
+      'api::hotel.hotel'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::hotels-message.hotels-message',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::hotels-message.hotels-message',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -788,84 +866,6 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiHotelHotel extends Schema.CollectionType {
-  collectionName: 'hotels';
-  info: {
-    singularName: 'hotel';
-    pluralName: 'hotels';
-    displayName: 'hotels';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Text;
-    price: Attribute.Integer;
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
-    image_url: Attribute.String;
-    featured: Attribute.Boolean;
-    hotels_messages: Attribute.Relation<
-      'api::hotel.hotel',
-      'oneToMany',
-      'api::hotels-message.hotels-message'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::hotel.hotel',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::hotel.hotel',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiHotelsMessageHotelsMessage extends Schema.CollectionType {
-  collectionName: 'hotels_messages';
-  info: {
-    singularName: 'hotels-message';
-    pluralName: 'hotels-messages';
-    displayName: 'hotels-messages';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Author: Attribute.String;
-    Message: Attribute.Text;
-    rating: Attribute.Decimal;
-    hotel: Attribute.Relation<
-      'api::hotels-message.hotels-message',
-      'manyToOne',
-      'api::hotel.hotel'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::hotels-message.hotels-message',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::hotels-message.hotels-message',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -876,6 +876,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::hotel.hotel': ApiHotelHotel;
+      'api::hotels-message.hotels-message': ApiHotelsMessageHotelsMessage;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -884,8 +886,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::hotel.hotel': ApiHotelHotel;
-      'api::hotels-message.hotels-message': ApiHotelsMessageHotelsMessage;
     }
   }
 }
